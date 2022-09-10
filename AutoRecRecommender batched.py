@@ -1,16 +1,3 @@
-#sbatch -N1 -n1 --gpus=1 --mem-per-gpu=8192 --ntasks=1 --cpus-per-task=16  --constraint=g start.sub
-#sacct  --format="JobID,Elapsed,CPUTime,MaxRSS,AveRSS"
-#tail -f slurm-146258.out
-
-"""
-Notes:
-The final model should incorporate a hybrid of MF output and content-user matching
-The proportions of these two metrics is determined by how many items the user has rated
-the content user matching system will include:
-1. Genres of items vs. user genres
-2. release dates of items vs typical "era" of user
-3. popularity of user-rated items (how niche the user is)
-"""
 import os
 import torch
 from torch import Tensor
@@ -23,7 +10,6 @@ from torch.optim import Adam
 import torch.nn as nn
 import numpy as np
 import pandas as pd
-from AutoRecDataPrep import MovieLensTrainDataloader
 
 def load_data(path:str):
     a = pd.read_csv(path).astype("int32").to_numpy()[:,:3]
