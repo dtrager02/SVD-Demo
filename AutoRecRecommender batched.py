@@ -126,7 +126,7 @@ def grid_search(betas,sizes):
     heap = []
     for beta in betas:
         for size in sizes:
-            model = AutoRec(data[:,0].max()+1,data[:,1].max()+1,epochs=30,hidden_size=30,beta1=.01)
+            model = AutoRec(data[:,0].max()+1,data[:,1].max()+1,epochs=12,hidden_size=size,beta1=beta)
             a = model.fit(train,test)
             heapq.heappush(heap,(a,beta,size))
     return heap
@@ -136,6 +136,9 @@ if __name__ == "__main__":
     print(f"loaded data users:{data[:,0].max()} items:{data[:,1].max()}")
     train,test = train_test_split(data)
     print("split data",train.size(),test.size())
-    model = AutoRec(data[:,0].max()+1,data[:,1].max()+1,epochs=30,hidden_size=30,beta1=.03)
+    model = AutoRec(data[:,0].max()+1,data[:,1].max()+1,epochs=15,hidden_size=40,beta1=.06)
     print("Fitting model")
+    # heap = grid_search([.01,.03,.05,.07],[30,50,70,100])
+    # while len(heap):
+    #     print(heapq.heappop(heap))
     model.fit(train,test)
